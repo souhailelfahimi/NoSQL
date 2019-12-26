@@ -88,7 +88,6 @@ public class UserRepository {
             user.setId(Bytes.toString(res.getValue(Bytes.toBytes(auth), Bytes.toBytes("id"))));
             user.setEmail(Bytes.toString(res.getValue(Bytes.toBytes(auth), Bytes.toBytes("email"))));
             user.setPassword(Bytes.toString(res.getValue(Bytes.toBytes(auth), Bytes.toBytes("password"))));
-
             user.setName(Bytes.toString(res.getValue(Bytes.toBytes(personal), Bytes.toBytes("name"))));
             user.setAvatar(Bytes.toString(res.getValue(Bytes.toBytes(personal), Bytes.toBytes("avatar"))));
             user.setPhone(Bytes.toString(res.getValue(Bytes.toBytes(personal), Bytes.toBytes("phone"))));
