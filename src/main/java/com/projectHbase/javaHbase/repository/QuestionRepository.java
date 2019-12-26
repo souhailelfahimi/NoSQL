@@ -21,7 +21,7 @@ public class QuestionRepository {
     String tblName = "question";
     String colFamily = "user_question";
     String data = "data";
-    String info ="info"
+    String info ="info";
 
 
     public void save(Question question) throws ZooKeeperConnectionException, IOException {
