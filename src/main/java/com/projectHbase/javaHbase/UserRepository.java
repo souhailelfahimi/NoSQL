@@ -6,6 +6,8 @@ import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.util.Bytes;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.hadoop.hbase.ZooKeeperConnectionException;
 
 public class UserRepository {
@@ -67,34 +69,35 @@ public class UserRepository {
 
     }
 
-    public void finAll() throws ZooKeeperConnectionException, IOException {
-        HBaseAdmin admin = new HBaseAdmin(conf);
-
+    public List<User> finAll() throws ZooKeeperConnectionException, IOException {
+        List<User> users = new ArrayList<>();
         // Explicitly specify connection
         HConnection connection = HConnectionManager.createConnection(conf);
-
         HTableInterface tblIface = connection.getTable(tblName);
-
         // Table Scan
         System.out.println("Table Scan...");
         byte[] startRow = Bytes.toBytes("P"); //inclusive
         byte[] endRow = Bytes.toBytes("S"); //exclusive
-
-        //Scan scan = new Scan(); // Full Scan
-        Scan scan = new Scan(startRow, endRow);
+        Scan scan = new Scan(); // Full Scan
+        //Scan scan = new Scan(startRow, endRow);
         ResultScanner scanner = tblIface.getScanner(scan);
+        for (Result res : scanner) {
+            User user = new User();
+            // extract user name  
+            user.setId(Bytes.toString(res.getValue(Bytes.toBytes(auth), Bytes.toBytes("id"))));
+            user.setEmail(Bytes.toString(res.getValue(Bytes.toBytes(auth), Bytes.toBytes("email"))));
+            user.setPassword(Bytes.toString(res.getValue(Bytes.toBytes(auth), Bytes.toBytes("password"))));
 
-        for (Result r : scanner) {
-            // extract user name
-            byte[] b = r.getRow();
-            String rowKey = Bytes.toString(b);
-            b = r.getValue(Bytes.toBytes(colFamily), Bytes.toBytes("user_name"));
-            String user = Bytes.toString(b);
-            // extract user mail
-            b = r.getValue(Bytes.toBytes(colFamily), Bytes.toBytes("user_mail"));
-            String mail = Bytes.toString(b);
-            System.out.println(rowKey + '\t' + user + '\t' + mail);
+            user.setName(Bytes.toString(res.getValue(Bytes.toBytes(personal), Bytes.toBytes("name"))));
+            user.setAvatar(Bytes.toString(res.getValue(Bytes.toBytes(personal), Bytes.toBytes("avatar"))));
+            user.setPhone(Bytes.toString(res.getValue(Bytes.toBytes(personal), Bytes.toBytes("phone"))));
+            user.setGender(Bytes.toString(res.getValue(Bytes.toBytes(personal), Bytes.toBytes("gender"))));
+
+            users.add(user);
+            System.out.println("**********"+user.getEmail());
+
         }
+        return users;
 
     }
 
@@ -107,19 +110,20 @@ public class UserRepository {
 
         // Get particular field
         System.out.println("Get particular Field...");
-        Get get = new Get(Bytes.toBytes(x)); //rowKey
-        get.addFamily(Bytes.toBytes(colFamily));
+        Get get = new Get(Bytes.toBytes(x + "RK")); //rowKey
+        get.addFamily(Bytes.toBytes(personal));
+        get.addFamily(Bytes.toBytes(auth));
         //get.addColumn(Bytes.toBytes(colFamily), Bytes.toBytes("user_mail"));
 
         Result res = tblIface.get(get);
-        user.setId(res.getValue(Bytes.toBytes(auth), Bytes.toBytes("id")).toString());
-        user.setEmail(res.getValue(Bytes.toBytes(auth), Bytes.toBytes("email")).toString());
-        user.setPassword(res.getValue(Bytes.toBytes(auth), Bytes.toBytes("password")).toString());
+        user.setId(Bytes.toString(res.getValue(Bytes.toBytes(auth), Bytes.toBytes("id"))));
+        user.setEmail(Bytes.toString(res.getValue(Bytes.toBytes(auth), Bytes.toBytes("email"))));
+        user.setPassword(Bytes.toString(res.getValue(Bytes.toBytes(auth), Bytes.toBytes("password"))));
 
-        user.setName(res.getValue(Bytes.toBytes(personal), Bytes.toBytes("name")).toString());
-        user.setAvatar(res.getValue(Bytes.toBytes(personal), Bytes.toBytes("avatar")).toString());
-        user.setPhone(res.getValue(Bytes.toBytes(auth), Bytes.toBytes("phone")).toString());
-        user.setGender(res.getValue(Bytes.toBytes(auth), Bytes.toBytes("gender")).toString());
+        user.setName(Bytes.toString(res.getValue(Bytes.toBytes(personal), Bytes.toBytes("name"))));
+        user.setAvatar(Bytes.toString(res.getValue(Bytes.toBytes(personal), Bytes.toBytes("avatar"))));
+        user.setPhone(Bytes.toString(res.getValue(Bytes.toBytes(personal), Bytes.toBytes("phone"))));
+        user.setGender(Bytes.toString(res.getValue(Bytes.toBytes(personal), Bytes.toBytes("gender"))));
 
         return user;
 

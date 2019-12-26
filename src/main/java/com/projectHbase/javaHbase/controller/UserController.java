@@ -8,6 +8,9 @@ package com.projectHbase.javaHbase.controller;
 import com.projectHbase.javaHbase.User;
 import com.projectHbase.javaHbase.UserRepository;
 import java.io.IOException;
+import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,27 +21,31 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class UserController {
-    
-    UserRepository userRepository=new UserRepository();
 
-    
+    UserRepository userRepository = new UserRepository();
+
     @PostMapping("/")
-    public void addUser(@RequestBody User user) throws IOException
-    {
+    public void addUser(@RequestBody User user) throws IOException {
         userRepository.save(user);
-        
+
     }
-    
-    
-    
+
+    @GetMapping("/{id}")
+    public User getUser(@PathVariable("id") String id) throws IOException {
+        return userRepository.findById(id);
+    }
+
+    @GetMapping("/users")
+    public List<User> findall() throws IOException {
+        return userRepository.finAll();
+    }
+
     public UserRepository getUserRepository() {
-        return  userRepository;
+        return userRepository;
     }
 
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-    
-    
-    
+
 }
