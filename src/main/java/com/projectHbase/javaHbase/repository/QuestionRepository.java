@@ -21,8 +21,6 @@ public class QuestionRepository {
     String tblName = "question";
     String colFamily = "user_question";
     String data = "data";
-    String id = "id";
-    String userId ="userId";
     String info ="info"
 
 
@@ -88,7 +86,8 @@ public class QuestionRepository {
         for (Result res : scanner) {
             Question question = new Question();
             // extract user name  
-            question.setId(Bytes.toString(res.getValue(Bytes.toBytes(data), Bytes.toBytes("id"))));
+            question.setId(Bytes.toString(res.getValue(Bytes.toBytes(info), Bytes.toBytes("id"))));
+            question.set_id_user(Bytes.toString(res.getValue(Bytes.toBytes(info), Bytes.toBytes("userId"))));
             question.setTitre(Bytes.toString(res.getValue(Bytes.toBytes(data), Bytes.toBytes("text"))));
             question.setDescription(Bytes.toString(res.getValue(Bytes.toBytes(data), Bytes.toBytes("description"))));
 
@@ -115,6 +114,7 @@ public class QuestionRepository {
 
         Result res = tblIface.get(get);
         question.setId(Bytes.toString(res.getValue(Bytes.toBytes(data), Bytes.toBytes("id"))));
+        question.set_id_user(Bytes.toString(res.getValue(Bytes.toBytes(info), Bytes.toBytes("userId"))));
         question.setTitre(Bytes.toString(res.getValue(Bytes.toBytes(data), Bytes.toBytes("text"))));
         question.setDescription(Bytes.toString(res.getValue(Bytes.toBytes(data), Bytes.toBytes("description"))));
 
