@@ -8,7 +8,6 @@ package com.projectHbase.javaHbase.controller;
 import com.projectHbase.javaHbase.User;
 import com.projectHbase.javaHbase.UserRepository;
 import java.io.IOException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,7 +26,10 @@ public class UserController {
     public void addUser(@RequestBody User user) throws IOException
     {
         userRepository.save(user);
+        
     }
+    
+    
     
     public UserRepository getUserRepository() {
         return  userRepository;
