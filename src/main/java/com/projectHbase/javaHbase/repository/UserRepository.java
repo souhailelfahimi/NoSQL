@@ -1,5 +1,6 @@
-package com.projectHbase.javaHbase;
+package com.projectHbase.javaHbase.repository;
 
+import com.projectHbase.javaHbase.bean.User;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.client.*;

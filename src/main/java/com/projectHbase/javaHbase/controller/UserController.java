@@ -5,8 +5,8 @@
  */
 package com.projectHbase.javaHbase.controller;
 
-import com.projectHbase.javaHbase.User;
-import com.projectHbase.javaHbase.UserRepository;
+import com.projectHbase.javaHbase.bean.User;
+import com.projectHbase.javaHbase.repository.UserRepository;
 import java.io.IOException;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;

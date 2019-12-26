@@ -1,5 +1,6 @@
-package com.projectHbase.javaHbase;
+package com.projectHbase.javaHbase.repository;
 
+import com.projectHbase.javaHbase.bean.Reponse;
 import java.io.IOException;
 
 import org.apache.hadoop.conf.Configuration;

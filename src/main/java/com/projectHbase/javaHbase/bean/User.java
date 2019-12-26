@@ -1,4 +1,4 @@
-package com.projectHbase.javaHbase;
+package com.projectHbase.javaHbase.bean;
 
 public class User {
     private String id;

@@ -1,4 +1,4 @@
-package com.projectHbase.javaHbase;
+package com.projectHbase.javaHbase.bean;
 
 public class Reponse {
 	private String id;
@@ -16,6 +16,10 @@ public class Reponse {
 		this.user_id = user_id;
 		this.question_id = question_id;
 	}
+
+    public Reponse() {
+    }
+        
 	
 	public String getId() {
 		return id;
