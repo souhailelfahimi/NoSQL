@@ -143,8 +143,7 @@ public class UserRepository {
         tblIface.put(upd);
     }
 
-    public void delete() throws ZooKeeperConnectionException, IOException {
-        HBaseAdmin admin = new HBaseAdmin(conf);
+    public void delete(String id) throws ZooKeeperConnectionException, IOException {
 
         // Explicitly specify connection
         HConnection connection = HConnectionManager.createConnection(conf);
@@ -154,8 +153,9 @@ public class UserRepository {
 
         // deleteColumn(…) deletes the specific version based on parameters, and deleteColumns(…) deletes all the versions for
         // a specified cell
-        Delete delete = new Delete(Bytes.toBytes("MikeRK"));
-        delete.deleteColumn(Bytes.toBytes(colFamily), Bytes.toBytes("user_name"));
+        Delete delete = new Delete(Bytes.toBytes(id+"RK"));
+        delete.deleteFamily(Bytes.toBytes(auth));
+        delete.deleteFamily(Bytes.toBytes(personal));
         tblIface.delete(delete);
 
         //Deallocate resources
