@@ -22,6 +22,8 @@ public class QuestionRepository {
     String colFamily = "user_question";
     String data = "data";
     String id = "id";
+    String userId ="userId";
+    String info ="info"
 
 
     public void save(Question question) throws ZooKeeperConnectionException, IOException {
@@ -59,7 +61,8 @@ public class QuestionRepository {
 
         Put put = new Put(Bytes.toBytes(rowKey));
         
-        put.add(Bytes.toBytes(id), Bytes.toBytes("text"), Bytes.toBytes(question.getId()));
+        put.add(Bytes.toBytes(info), Bytes.toBytes("id"), Bytes.toBytes(question.getId()));
+        put.add(Bytes.toBytes(info), Bytes.toBytes("userId"), Bytes.toBytes(question.get_id_user()));
         put.add(Bytes.toBytes(data), Bytes.toBytes("text"), Bytes.toBytes(question.getTitre()));
         put.add(Bytes.toBytes(data), Bytes.toBytes("description"), Bytes.toBytes(question.getDescription()));
 
